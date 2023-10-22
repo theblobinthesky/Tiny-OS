@@ -2,7 +2,8 @@
 ADJ_KERNEL_FILE=../../$(KERNEL_FILE)
 
 # local variables
-CFLAGS+=-ffreestanding -mno-red-zone
+C_INCLUDES=-I../common
+CFLAGS+=-ffreestanding -mno-red-zone $(C_INCLUDES)
 LDFLAGS+=-no-pie -Wl,-e,main
 C_FILES=$(wildcard *.c)
 C_OBJECTS=$(patsubst %.c,%_c.o,$(C_FILES))

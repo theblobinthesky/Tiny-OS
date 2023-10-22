@@ -1,6 +1,7 @@
 #include "kernel_loader.h"
 #include "efi_main.h"
 #include "elf.h"
+#include "util.h"
 
 static bool verify_elf_ident(Elf64_Ehdr* header) {
     bool is_magic_number = (header->e_ident[0] == 0x7F) &&
@@ -77,9 +78,18 @@ EFI_STATUS load_kernel(EFI_HANDLE image_handle) {
     int num_bytes = (int)(max_virtual_address - min_virtual_address);
     int num_pages = (num_bytes / EFI_PAGE_SIZE) + 1; // there might be one more page than necessary
 
-    EFI_PHYSICAL_ADDRESS kernel_ptr;
-    status = BS->AllocatePages(AllocateAnyPages, EfiLoaderData, num_pages, &kernel_ptr);
+    void* kernel_ptr;
+    status = BS->AllocatePages(AllocateAnyPages, EfiLoaderData, num_pages, (EFI_PHYSICAL_ADDRESS*)&kernel_ptr);
     ASSERT_NO_EFI_ERROR();
+
+    for(int i = 0; i < elf_header->e_phnum; i++) {
+        Elf64_Phdr* ph = elf_program_headers + i;
+
+        if(ph->p_flags & PT_LOAD) {
+            memcpy((void*)ph->p_vaddr, kernel_ptr + ph->p_offset, ph->p_filesz);
+            memset((void*)(ph->p_vaddr + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
+        }
+    }
 
     return EFI_SUCCESS;
 }
