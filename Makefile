@@ -21,7 +21,7 @@ $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 # NOTE: Essentially a lone partition with a fat32 filesystem
-all: $(SUBDIRS)
+$(ISO_FILE): $(SUBDIRS)
 	dd if=/dev/zero of=$(IMAGE_FILE) bs=1024k count=$(IMAGE_SIZE) status=none
 	mformat -i $(IMAGE_FILE) -F ::
 	mmd -i $(IMAGE_FILE) ::/EFI
@@ -34,6 +34,8 @@ all: $(SUBDIRS)
 	cp $(IMAGE_FILE) iso/fat.img
 	xorriso -as mkisofs -R -f -e fat.img -no-emul-boot -o $(ISO_FILE) iso
 	rm -rf iso
+
+all: $(ISO_FILE)
 
 run:
 	$(MAKE) all
