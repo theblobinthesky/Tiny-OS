@@ -7,6 +7,7 @@ sudo apt-get install qemu-system-x86 ovmf gnu-efi xorriso mtools clang lld
 - UEFI Hello World using clang toolchain: https://wiki.osdev.org/UEFI_App_Bare_Bones
 - UEFI Specification, version 2.9
 - https://wiki.osdev.org/Loading_files_under_UEFI
+- https://wiki.osdev.org/GOP
 
 ## ELF
 - https://wiki.osdev.org/ELF

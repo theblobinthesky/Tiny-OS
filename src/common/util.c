@@ -11,3 +11,8 @@ void memset(void* dst, char value, int len) {
         ((char*) dst)[i] = value;
     }
 }
+
+int abs(int value) {
+    if(value < 0) return -value;
+    else return value;
+}

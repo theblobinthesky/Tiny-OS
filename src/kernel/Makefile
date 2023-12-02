@@ -3,8 +3,11 @@ ADJ_KERNEL_FILE=../../$(KERNEL_FILE)
 
 # local variables
 C_INCLUDES=-I../common
-CFLAGS+=-ffreestanding -mno-red-zone $(C_INCLUDES)
-LDFLAGS+=-no-pie -Wl,-e,main
+
+# We target x86_64-unknown-windows to get the calling convention
+# of the elf program and the kernel to match up. TODO: Hack.
+CFLAGS+=-target x86_64-unknown-windows $(C_INCLUDES)
+LDFLAGS+=-static -T kernel.lds
 C_FILES=$(wildcard *.c)
 C_OBJECTS=$(patsubst %.c,%_c.o,$(C_FILES))
 

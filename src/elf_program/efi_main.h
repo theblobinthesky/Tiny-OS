@@ -1,10 +1,6 @@
 #pragma once
 #include <efi.h>
 
-typedef int bool;
-#define false 0
-#define true 1
-
 #define ASSERT_NO_EFI_ERROR() if(status != EFI_SUCCESS) return status;
 
 void print(CHAR16* fmt);

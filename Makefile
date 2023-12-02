@@ -8,7 +8,7 @@ IMAGE_FILE=bin/image.img
 ISO_FILE=bin/cdrom.iso
 IMAGE_SIZE=64
 
-CFLAGS=-ffreestanding -Wall -Wextra -Werror
+CFLAGS=-ffreestanding -mno-red-zone -Wall -Wextra -Wno-unused-variable -Wno-unused-but-set-variable
 export CFLAGS
 
 LDFLAGS=-nostdlib
