@@ -8,7 +8,9 @@ IMAGE_FILE=bin/image.img
 ISO_FILE=bin/cdrom.iso
 IMAGE_SIZE=64
 
-CFLAGS=-ffreestanding -mno-red-zone -Wall -Wextra -Wno-unused-variable -Wno-unused-but-set-variable
+GNU_EFI_INC=/usr/include/efi
+C_INCLUDES=-I$(GNU_EFI_INC) -I$(GNU_EFI_INC)/x86_64 -I$(GNU_EFI_INC)/protocol -I../common
+CFLAGS=-ffreestanding -mno-red-zone -Wall -Wextra -Wno-unused-variable -Wno-unused-but-set-variable $(C_INCLUDES)
 export CFLAGS
 
 LDFLAGS=-nostdlib
@@ -28,18 +30,12 @@ $(ISO_FILE): $(SUBDIRS)
 	mmd -i $(IMAGE_FILE) ::/EFI/BOOT
 	mcopy -i $(IMAGE_FILE) $(EFI_BOOT_FILE) ::/EFI/BOOT
 	mcopy -i $(IMAGE_FILE) $(KERNEL_FILE) ::
-	
-	rm -rf iso
-	mkdir iso
-	cp $(IMAGE_FILE) iso/fat.img
-	xorriso -as mkisofs -R -f -e fat.img -no-emul-boot -o $(ISO_FILE) iso
-	rm -rf iso
+	# ./tools/format_fat32/bin/format_fat32 $(IMAGE_FILE)2 $(EFI_BOOT_FILE) $(KERNEL_FILE)
 
 all: $(ISO_FILE)
 
 run:
-	$(MAKE) all
-	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -cdrom $(ISO_FILE)
+	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -drive format=raw,file=$(IMAGE_FILE)
 
 clean: $(SUBDIRS)
 	rm -rf bin/*

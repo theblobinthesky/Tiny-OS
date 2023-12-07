@@ -4,7 +4,7 @@
 #define STR(arg) _STR(arg)
 #define _STR(arg) #arg
 
-#define panic(fmt, ...) _panic("PANIC in " __FILE__ " at line " STR(__LINE__) ": " __VA_ARGS__)
+#define panic(...) _panic("PANIC in " __FILE__ " at line " STR(__LINE__) ": " __VA_ARGS__)
 void _panic(const char* fmt, ...);
 
 #include <stdarg.h>

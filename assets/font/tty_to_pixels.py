@@ -4,7 +4,7 @@ import numpy as np
 ASCII_START = 33
 ASCII_END = 126
 FONT_PATH = "pixel-comic-sans-undertale-sans-font.ttf"
-GLYPH_SIZE_PX = 32
+GLYPH_SIZE_PX = 16
 CHARACTERS = [chr(c) for c in range(ASCII_START, ASCII_END + 1)]
 HEADER_FILE_PATH = "../../src/kernel/pixel_font.h"
 
