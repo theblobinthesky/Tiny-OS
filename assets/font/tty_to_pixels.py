@@ -35,10 +35,11 @@ arrayCode += "// But truetype font rendering is kind of overkill for this tiny k
 arrayCode += "// Maybe it's not idk. Userspace code can and will do whatever it wants though.\n"
 arrayCode += "// So maybe the kernel will just use stb_truetype.h aswell...\n"
 arrayCode += "\n"
+arrayCode += "#include \"util.h\"\n"
 arrayCode += f"#define FONT_GLYPH_SIZE_PX {GLYPH_SIZE_PX}\n"
 arrayCode += f"#define FONT_GLYPH_PTR(c) (font + {GLYPH_SIZE_PX * GLYPH_SIZE_PX * 1} * ((c) - (char){ASCII_START}))\n"
 arrayCode += "\n"
-arrayCode += "char font[] = {\n"
+arrayCode += "u8 font[] = {\n"
 
 for i in range(fontArray.shape[0]):
     for y in range(fontArray.shape[1]):

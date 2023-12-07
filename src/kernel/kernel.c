@@ -4,7 +4,6 @@
 #include "console_graphics.h"
 #include "gdt.h"
 #include "interrupt.h"
-#include "exception.h"
 #include "virtual_memory.h"
 
 int KERNEL_CALL kernel_main(kernel_args args) {
@@ -18,7 +17,6 @@ int KERNEL_CALL kernel_main(kernel_args args) {
 
     gdt_init();
     interrupt_init();
-    exception_init();
 
     sti();
 

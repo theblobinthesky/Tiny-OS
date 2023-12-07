@@ -16,7 +16,7 @@ struct gdt_entry {
     u8 dir_bit : 1;
     u8 exec_bit : 1;
     u8 desc_type_bit : 1;
-    u8 dpl : 3;
+    u8 dpl : 2;
     u8 present_bit : 1;
 
     u8 limit_high : 4;

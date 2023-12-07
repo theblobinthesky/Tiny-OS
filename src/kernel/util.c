@@ -7,7 +7,6 @@ void _panic(const char* fmt, ...) {
 
     console_set_colors(0x0000aa, 0xffffff);
     console_clear();
-    console_printf("KERNEL PANIC: ");
     console_vprintf(fmt, args);
     console_printf("\n");
 

@@ -4,10 +4,11 @@
 // Maybe it's not idk. Userspace code can and will do whatever it wants though.
 // So maybe the kernel will just use stb_truetype.h aswell...
 
+#include "util.h"
 #define FONT_GLYPH_SIZE_PX 16
 #define FONT_GLYPH_PTR(c) (font + 256 * ((c) - (char)33))
 
-char font[] = {
+u8 font[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
