@@ -26,12 +26,12 @@ $(SUBDIRS):
 
 # NOTE: Essentially a lone partition with a fat32 filesystem
 $(IMAGE_FILE): $(SUBDIRS)
-	dd if=/dev/zero of=$(IMAGE_FILE) bs=1024k count=$(IMAGE_SIZE) status=none
-	mformat -i $(IMAGE_FILE) -F ::
-	mmd -i $(IMAGE_FILE) ::/EFI
-	mmd -i $(IMAGE_FILE) ::/EFI/BOOT
-	mcopy -i $(IMAGE_FILE) $(EFI_BOOT_FILE) ::/EFI/BOOT
-	mcopy -i $(IMAGE_FILE) $(KERNEL_FILE) ::
+	# dd if=/dev/zero of=$(IMAGE_FILE) bs=1024k count=$(IMAGE_SIZE) status=none
+	# mformat -i $(IMAGE_FILE) -F ::
+	# mmd -i $(IMAGE_FILE) ::/EFI
+	# mmd -i $(IMAGE_FILE) ::/EFI/BOOT
+	# mcopy -i $(IMAGE_FILE) $(EFI_BOOT_FILE) ::/EFI/BOOT
+	# mcopy -i $(IMAGE_FILE) $(KERNEL_FILE) ::
 	./tools/format_fat32/bin/format_fat32 bin/image2.img $(EFI_BOOT_FILE),/EFI/BOOT/BOOTX64.EFI $(KERNEL_FILE),/KERNEL
 
 all: $(IMAGE_FILE)
