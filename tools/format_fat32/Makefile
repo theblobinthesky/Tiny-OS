@@ -1,6 +1,6 @@
 BIN_FILE=bin/format_fat32
 
-CFLAGS=
+CFLAGS=-O0 -g
 LDFLAGS=
 
 C_FILES=$(wildcard src/*.cpp)

@@ -17,4 +17,5 @@ typedef double f64;
 
 void memcpy(void* dst, void* src, int len);
 void memset(void* dst, char value, int len);
+int memcmp(const void *ptr1, const void *ptr2, u32 num);
 int abs(int value);

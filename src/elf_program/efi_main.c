@@ -179,6 +179,18 @@ void print_u64(u64 v) {
     ST->ConOut->OutputString(ST->ConOut, str);
 }
 
+static void *get_acpi_table_ptr() {
+    EFI_GUID acpi_guid = ACPI_20_TABLE_GUID;
+    for (u32 i = 0; i < ST->NumberOfTableEntries; i++) {
+        EFI_CONFIGURATION_TABLE *efi_config = &ST->ConfigurationTable[i];
+        if (memcmp(&efi_config->VendorGuid, &acpi_guid, sizeof(EFI_GUID)) == 0) {
+            return efi_config->VendorTable;
+        }
+    }
+
+    return null;
+}
+
 static EFI_STATUS get_memory_map(EFI_MEMORY_DESCRIPTOR *memory_map, UINTN *memory_map_size, 
     UINTN *memory_map_key, UINTN *desc_size, u32 *desc_version) {
     EFI_STATUS status = EFI_BUFFER_TOO_SMALL;
@@ -225,6 +237,12 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
     graphics_fb framebuffer;
     init_graphics_fb(&framebuffer);
 
+    void *acpi_table_ptr = get_acpi_table_ptr();
+    if (acpi_table_ptr == null) {
+        print_error(L"EFI program failed to aquire acpi table pointer!");
+        return EFI_ABORTED;
+    }
+
     // Load kernel to address determined at link-time.
     kernel_main_ptr kernel_main = 0;
     status = load_kernel(ImageHandle, &kernel_main);
@@ -258,7 +276,8 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable
         .memory_map = memory_map,
         .memory_map_size = memory_map_size,
         .memory_map_desc_size = desc_size,
-        .memory_map_desc_version = desc_version
+        .memory_map_desc_version = desc_version,
+        .acpi_table_ptr = acpi_table_ptr
     };
 
     int kernel_status = kernel_main(args);

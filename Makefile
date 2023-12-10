@@ -32,7 +32,7 @@ $(IMAGE_FILE): $(SUBDIRS)
 	mmd -i $(IMAGE_FILE) ::/EFI/BOOT
 	mcopy -i $(IMAGE_FILE) $(EFI_BOOT_FILE) ::/EFI/BOOT
 	mcopy -i $(IMAGE_FILE) $(KERNEL_FILE) ::
-	# ./tools/format_fat32/bin/format_fat32 $(IMAGE_FILE)2 $(EFI_BOOT_FILE) $(KERNEL_FILE)
+	./tools/format_fat32/bin/format_fat32 bin/image2.img $(EFI_BOOT_FILE),/EFI/BOOT/BOOTX64.EFI $(KERNEL_FILE),/KERNEL
 
 all: $(IMAGE_FILE)
 

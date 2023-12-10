@@ -8,6 +8,7 @@ typedef struct {
     u64 memory_map_key;
     u64 memory_map_desc_size; 
     u32 memory_map_desc_version;
+    void *acpi_table_ptr;
 } kernel_args;
 
 #define KERNEL_CALL __cdecl

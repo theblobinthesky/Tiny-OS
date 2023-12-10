@@ -141,8 +141,6 @@ void interrupt_init() {
     idt_desc.offset = (u64)idt;
 
     asm volatile("lidt %0" : : "m" (idt_desc));
-    int a = 12910293;
-    a = a / 0;
 }
 
 void set_interrupt_handler(u32 interrupt_index, interrupt_handler handler) {
